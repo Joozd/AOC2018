@@ -1,5 +1,6 @@
 package common
 
+import common.extensions.words
 import java.io.File
 import kotlin.system.measureNanoTime
 
@@ -35,6 +36,11 @@ interface Solution {
 
 
     fun inputLines() = readInput().lines()
-    fun inputNumbers() = inputLines().map { it.toLong() }
+    fun inputNumbers(): List<Int> {
+        val input = readInput()
+        return if ('\n' in input)
+            input.lines().map { it.toInt()}
+        else input.words().map {it.toInt()}
+    }
     fun readInput() = File("inputs\\$day.txt").readText()
 }

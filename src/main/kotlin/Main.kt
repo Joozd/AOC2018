@@ -1,5 +1,5 @@
 fun main() {
-    println("Welcome to Joozd's AOC 2021 solution runner.")
+    println("Welcome to Joozd's AOC 2018 solution runner.")
     println("Please tell us what day you want to run: ")
     when (readLine()) {
         "0" -> day0.Day0().runTimed()
@@ -14,5 +14,6 @@ fun main() {
         "9" -> day9.Day9().runTimed()
         "10" -> day10.Day10().runTimed()
         "11" -> day11.Day11().runTimed()
+        "12" -> day12.Day12().runTimed()
     }
 }

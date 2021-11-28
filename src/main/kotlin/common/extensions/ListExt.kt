@@ -21,3 +21,22 @@ fun List<*>.getMostOccurringFrequency(): Int{
         count{ it == element }
     } ?: 0
 }
+
+/**
+ * Find a repeating pattern at the end of a list, and return a list with that pattern
+ * @param minRepeats: How often that pattern must repeat itself
+ *  (if you want [1,2,2,3,1,2,2,3,1,2,2,3,...] to return [1,2,2,3] you should set this to higher than 2)
+ * @return found repeating sequence, or 0 if no repeats found
+ */
+fun <T> List<T>.findPeriodOfGrowth(minRepeats: Int = 3, minimumLength: Int = 1): List<T>?{
+    if (size < minimumLength * minRepeats) return null
+    val sizeToCheck = size/minRepeats
+    return (minimumLength..sizeToCheck).firstOrNull { currentLength ->
+        val currentSequence = takeLast(currentLength)
+        this.takeLast(currentLength * minRepeats) == currentSequence * minRepeats
+    }?.let{
+        this.takeLast(it)
+    }
+}
+
+operator fun <T> List<T>.times(repeats: Int) = List(repeats) { this }.flatten()

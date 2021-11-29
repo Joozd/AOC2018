@@ -1,6 +1,6 @@
 package day13
 
-import common.dijkstra.Coordinate
+import common.Coordinate
 
 class Track(x: Int, y: Int, val direction: Char): Coordinate(x,y) {
     private var presentCart: Cart? = null

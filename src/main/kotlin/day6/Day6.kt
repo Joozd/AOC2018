@@ -1,6 +1,6 @@
 package day6
 
-import common.dijkstra.Coordinate
+import common.Coordinate
 import common.Solution
 
 class Day6: Solution {

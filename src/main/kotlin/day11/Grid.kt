@@ -1,6 +1,6 @@
 package day11
 
-import common.dijkstra.Coordinate
+import common.Coordinate
 
 class Grid(private val filler: Filler) {
     private val grid = Array(300){ y ->

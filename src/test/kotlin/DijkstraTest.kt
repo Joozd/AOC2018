@@ -1,5 +1,5 @@
 import common.Solution
-import common.dijkstra.Coordinate
+import common.Coordinate
 import common.dijkstra.Node
 import common.dijkstra.RouteFinder
 import org.junit.Before
@@ -35,7 +35,7 @@ class DijkstraTest: Solution {
     fun testDijkstraNetwork(){
         assertEquals(2, routeFinder.findDistance(NetworkedTrack(0,16), NetworkedTrack(0,18)))
         val someRoute = routeFinder.findRoute(NetworkedTrack(0,16), NetworkedTrack(21,43))?.map {it as NetworkedTrack}
-        println(someRoute?.map {Coordinate(it.x, it.y)}?.joinToString("\n"))
+        println(someRoute?.map { Coordinate(it.x, it.y) }?.joinToString("\n"))
     }
 
     private fun makeTracksFromInput() = input.mapIndexed { y, row ->
@@ -94,7 +94,7 @@ class DijkstraTest: Solution {
 
         override fun getDistanceToNeighbour(neighbour: Node<Int>): Int = 1
 
-        override fun toString() = "NetworkedTrack: ($x, $y, $c) - exits are $exits (${getNeighbours().map { Coordinate((it as Coordinate).x, (it as Coordinate).y)}})"
+        override fun toString() = "NetworkedTrack: ($x, $y, $c) - exits are $exits (${getNeighbours().map { Coordinate((it as Coordinate).x, (it as Coordinate).y) }})"
     }
 
     abstract class CoordinateNode(x: Int, y: Int): Coordinate(x,y), Node<Int>

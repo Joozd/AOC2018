@@ -1,6 +1,6 @@
 package day3
 
-import common.dijkstra.Coordinate
+import common.Coordinate
 import common.extensions.words
 
 class Claim(val id: Int, val left: Int, val right: Int, val top: Int, val bottom: Int) {

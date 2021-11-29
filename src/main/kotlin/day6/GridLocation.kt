@@ -1,6 +1,6 @@
 package day6
 
-import common.dijkstra.Coordinate
+import common.Coordinate
 import common.extensions.abs
 
 class GridLocation(x: Int, y:Int, private val targets: List<Coordinate>): Coordinate(x, y) {

@@ -40,3 +40,6 @@ fun <T> List<T>.findPeriodOfGrowth(minRepeats: Int = 3, minimumLength: Int = 1):
 }
 
 operator fun <T> List<T>.times(repeats: Int) = List(repeats) { this }.flatten()
+
+fun <T> List<T>.endsWith(other: List<T>): Boolean =
+    this.takeLast(other.size) == other

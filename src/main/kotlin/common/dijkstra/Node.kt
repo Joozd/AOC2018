@@ -5,13 +5,12 @@ package common.dijkstra
  */
 interface Node<T> where T: Number, T: Comparable<T> {
     /**
-     * Get a list of all [NodeWithDistance]s
-     * A neighbour is any Node that can be reached from this node without passing any other node,
-     *  together with the distance to that node
+     * Get a list of all Nodes that can be reached from this node without passing any other node
      */
     fun getNeighbours(): List<Node<T>>
 
+    /**
+     * Get the distance to a neighbour
+     */
     fun getDistanceToNeighbour(neighbour: Node<T>): T
-
-
 }

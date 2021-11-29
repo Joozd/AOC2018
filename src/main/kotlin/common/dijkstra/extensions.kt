@@ -1,9 +1,6 @@
 package common.dijkstra
 
-
-
 /**
- * I wanted to go with operator but that would remove compiler type safety so no
  * If [other] is null it counts as zero.
  */
 internal fun <T> Number.addTo(other: Number?): T where T: Number, T:Comparable<T> {
@@ -18,16 +15,6 @@ internal fun <T> Number.addTo(other: Number?): T where T: Number, T:Comparable<T
         is Byte -> this + (other ?: 0.toByte()) as Byte
         else -> error ("Not supported yet, please fix that here")
     }) as T
-}
-
-internal fun Number.zero() = when(this){
-    is Int -> 0
-    is Long -> 0L
-    is Short -> 0.toShort()
-    is Float -> 0.toFloat()
-    is Double -> 0.toDouble()
-    is Byte -> 0.toByte()
-    else -> error ("Not supported yet, please fix that here")
 }
 
 /**

@@ -1,6 +1,6 @@
 package day13
 
-import common.Coordinate
+import common.dijkstra.Coordinate
 import common.extensions.increaseWithinBounds
 
 class Cart(startPos: Track, direction: Char) {

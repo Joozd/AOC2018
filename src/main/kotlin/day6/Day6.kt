@@ -1,6 +1,6 @@
 package day6
 
-import common.Coordinate
+import common.dijkstra.Coordinate
 import common.Solution
 
 class Day6: Solution {
@@ -56,7 +56,7 @@ class Day6: Solution {
         coordinates = input.map { s ->
             s.split(", ")
                 .map{it.toInt()}
-                .let{ Coordinate(it[0], it[1])}
+                .let{ Coordinate(it[0], it[1]) }
         }
 
     }

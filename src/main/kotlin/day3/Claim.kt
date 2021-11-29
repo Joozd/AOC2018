@@ -1,6 +1,6 @@
 package day3
 
-import common.Coordinate
+import common.dijkstra.Coordinate
 import common.extensions.words
 
 class Claim(val id: Int, val left: Int, val right: Int, val top: Int, val bottom: Int) {
@@ -8,7 +8,7 @@ class Claim(val id: Int, val left: Int, val right: Int, val top: Int, val bottom
 
     fun coordinates(): List<Coordinate> =
         (left..right).map{ h ->
-            (top..bottom).map {v -> Coordinate(h, v)}
+            (top..bottom).map {v -> Coordinate(h, v) }
         }.flatten()
 
     fun overlaps(other: Claim): Boolean =

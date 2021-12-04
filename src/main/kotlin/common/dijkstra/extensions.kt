@@ -17,15 +17,13 @@ internal fun <T> Number.addTo(other: Number?): T where T: Number, T:Comparable<T
     }) as T
 }
 
-/**
- * Replaces an element of this set with a new element. Doesn't keep order.
- */
-internal fun <T> HashSet<T>.addOrReplace(element: T){
-    this.remove(element)
-    this.add(element)
+internal fun <T> MutableList<T>.addOrReplace(element: T){
+    val i = indexOf(element)
+    if (i == -1) add(element)
+    else this[i] = element
 }
 
-internal fun <T> HashSet<T>.addOrReplaceIf(element: T, predicate: (T) -> Boolean) {
+internal inline fun <T> MutableList<T>.addOrReplaceIf(element: T, predicate: (T) -> Boolean) {
     if (predicate(element))
         addOrReplace(element)
 }
@@ -33,10 +31,12 @@ internal fun <T> HashSet<T>.addOrReplaceIf(element: T, predicate: (T) -> Boolean
 /**
  * Replaces element in this HashSet by [element] if it is smaller.
  */
-internal fun <T: Comparable<T>> HashSet<T>.addOrReplaceIfSmaller(element: T) {
+internal fun <T: Comparable<T>> MutableList<T>.addOrReplaceIfSmaller(element: T) {
     addOrReplaceIf(element){
         firstOrNull { it == element }?.let{
             it > element
         } ?: true
     }
 }
+
+internal fun Int.abs() = if (this > 0) this else this * -1

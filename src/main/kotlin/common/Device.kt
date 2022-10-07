@@ -1,10 +1,11 @@
-package day16
+package common
 
 import common.extensions.grabInts
 import common.extensions.toInt
+import common.extensions.words
 
 class Device {
-    private val reg = IntArray(4) { 0 }
+    private val reg = IntArray(6) { 0 }
 
     /**
      * Opcodes:
@@ -43,16 +44,16 @@ class Device {
 
     private val foundOpcodes = HashMap<Int, Opcode>()
 
-    val opCodes get() = foundOpcodes.map { it.key to getOpcodeName(it.value) }.toMap()
+    private val opcodeByName = buildOpcodeNamesMap()
 
     fun possibleOpcodes(test: Test, usedOpcodes: List<Opcode> = allOpcodes): List<Opcode> {
-        val originalReg = reg.toList()
+        val originalReg = reg.toList().toIntArray()
         val result = usedOpcodes.filter {
-            setReg(test.before)
+            setReg(*test.before.toIntArray())
             it(test.opcode[1], test.opcode[2], test.opcode[3])
             reg.toList() == test.after
         }
-        setReg(originalReg)
+        setReg(*originalReg)
         //println("Found ${result.size} opcodes for test")
         return result
     }
@@ -72,14 +73,13 @@ class Device {
         }
     }
 
-    private fun getOpcodeName(opcode: Opcode): String?{
+    private fun buildOpcodeNamesMap(): Map<String, Opcode>{
         val opCodes = listOf(addr, addi, mulr, muli, banr, bani, borr, bori, setr, seti, gtir, gtri, gtrr, eqir, eqri, eqrr)
         val opcodeNames = listOf("addr", "addi", "mulr", "muli", "banr", "bani", "borr", "bori", "setr", "seti", "gtir", "gtri", "gtrr", "eqir", "eqri", "eqrr")
-        val map = opCodes.zip(opcodeNames).toMap()
-        return map[opcode]
+        return opcodeNames.zip(opCodes).toMap()
     }
 
-    private fun setReg(values: Iterable<Int>){
+    fun setReg(vararg values: Int){
         values.forEachIndexed{ index, i -> reg[index] = i }
     }
 
@@ -94,6 +94,37 @@ class Device {
         foundOpcodes[i[0]]!!(i[1], i[2], i[3])
     }
 
+    fun runProgram(program: List<String>): Int{
+        val p = compileProgram(program)
+        val ip = getInstructionPointer(program)
+        var prev0 = reg[0]
+        while (reg[ip] in p.indices){
+            p[reg[ip]]()
+            reg[ip]++
+            if (reg[0] != prev0){
+                prev0 = reg[0]
+                println(reg[0])
+            }
+        }
+        return reg[0]
+    }
+
+    operator fun get(index: Int) = reg[index]
+
+    private fun compileProgram(program: List<String>) =
+        program.drop(1).map{
+            val words = it.words()
+            val numbers = it.grabInts()
+            Instruction(opcodeByName[words.first()]!!, numbers[0], numbers[1], numbers[2])
+        }
+
+    private fun getInstructionPointer(program: List<String>) = program.first().grabInts().first()
+
+
+    private class Instruction(val opcode: Opcode, val p1: Int, val p2: Int, val p3: Int){
+        operator fun invoke() = opcode(p1, p2, p3)
+    }
+
 
 
 
@@ -103,7 +134,7 @@ class Device {
 
     class Test(val before: List<Int>, val opcode: List<Int>, val after: List<Int>, var matchingOpcodes: List<Opcode> = emptyList()){
         companion object{
-            fun ofString(testString: String): Test{
+            fun ofString(testString: String): Test {
                 val numbers = testString.grabInts().chunked(4)
                 return Test(numbers[0], numbers[1], numbers[2])
 

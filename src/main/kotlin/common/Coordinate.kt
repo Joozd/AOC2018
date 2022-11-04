@@ -13,4 +13,6 @@ open class Coordinate(val x: Int, val y: Int): Comparable<Coordinate>{
     fun south() = Coordinate(x+1, y)
     fun east() = Coordinate(x, y+1)
     fun west() = Coordinate(x, y-1)
+
+    val adjacentCoordinates get() = listOf(north(), east(), south(), west())
 }

@@ -21,6 +21,7 @@ fun main() {
         "16" -> day16.Day16().runTimed()
         "19" -> day19.Day19().runTimed()
         "20" -> day20.Day20().runTimed()
+        "21" -> day21.Day21().runTimed()
 
         else -> println("Invalid input, stopping")
     }

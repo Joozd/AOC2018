@@ -13,7 +13,7 @@ class Day19: Solution {
     override fun answer1(): Any = altq1()
 
     override fun answer2(): Any {
-        device.setReg(1)
+        device.setReg(0, 1)
         device.runProgram(input.dropLast(1))
         val numberToFactor = device[1]
         return factor(numberToFactor)

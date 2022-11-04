@@ -7,6 +7,11 @@ import common.extensions.words
 class Device {
     private val reg = IntArray(6) { 0 }
 
+    private var program: List<Instruction> = emptyList()
+    private var ip = 0
+
+    val running get() = reg[ip] < program.size
+
     /**
      * Opcodes:
      */
@@ -49,11 +54,11 @@ class Device {
     fun possibleOpcodes(test: Test, usedOpcodes: List<Opcode> = allOpcodes): List<Opcode> {
         val originalReg = reg.toList().toIntArray()
         val result = usedOpcodes.filter {
-            setReg(*test.before.toIntArray())
+            setRegs(*test.before.toIntArray())
             it(test.opcode[1], test.opcode[2], test.opcode[3])
             reg.toList() == test.after
         }
-        setReg(*originalReg)
+        setRegs(*originalReg)
         //println("Found ${result.size} opcodes for test")
         return result
     }
@@ -79,8 +84,12 @@ class Device {
         return opcodeNames.zip(opCodes).toMap()
     }
 
-    fun setReg(vararg values: Int){
+    private fun setRegs(vararg values: Int){
         values.forEachIndexed{ index, i -> reg[index] = i }
+    }
+
+    fun setReg(index: Int, value: Int){
+        reg[index] = value
     }
 
     fun run(program: List<List<Int>>): Int{
@@ -94,19 +103,23 @@ class Device {
         foundOpcodes[i[0]]!!(i[1], i[2], i[3])
     }
 
-    fun runProgram(program: List<String>): Int{
-        val p = compileProgram(program)
-        val ip = getInstructionPointer(program)
-        var prev0 = reg[0]
-        while (reg[ip] in p.indices){
-            p[reg[ip]]()
-            reg[ip]++
-            if (reg[0] != prev0){
-                prev0 = reg[0]
-                println(reg[0])
-            }
+    fun runProgram(source: List<String>): Int{
+        load(source)
+        while (running){
+            tick()
         }
         return reg[0]
+    }
+
+    fun load(source: List<String>){
+        program = compileProgram(source)
+        if (source.first().startsWith("#"))
+            ip = getInstructionPointer(source)
+    }
+
+    fun tick(){
+        program[reg[ip]]()
+        reg[ip]++
     }
 
     operator fun get(index: Int) = reg[index]

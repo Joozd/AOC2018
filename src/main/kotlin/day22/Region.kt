@@ -1,25 +1,18 @@
 package day22
 
 import common.Coordinate
-import common.dijkstra.GridNode
-import common.dijkstra.Node
 
-class Region(coordinate: Coordinate, val erosionLevel: Int, private val caveSystem: Cave):
-    Coordinate(coordinate.x, coordinate.y), GridNode
+open class Region(coordinate: Coordinate, val erosionLevel: Int, protected val caveSystem: Cave):
+    Coordinate(coordinate.x, coordinate.y)
 {
     val dangerLevel get() = erosionLevel % 3
 
-    /**
-     * Get a list of all Nodes that can be reached from this node without passing any other node
-     */
-    override fun getNeighbours(): List<Node<Int>> = adjacentCoordinates.map{
-        caveSystem[it]
-    }
+    fun withTool(tool: RegionWithTool.Tool) = RegionWithTool(Coordinate(x,y), erosionLevel, caveSystem, tool)
 
-    /**
-     * Get the distance to a neighbour
-     */
-    override fun getDistanceToNeighbour(neighbour: Node<Int>): Int {
-        TODO("Not implemented")
+    fun terrain() = when(dangerLevel){
+        0 -> "."
+        1 -> "="
+        2 -> "|"
+        else -> error("ERROR")
     }
 }

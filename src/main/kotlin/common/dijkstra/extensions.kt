@@ -16,7 +16,7 @@ internal fun <T> Number.addTo(other: Number?): T where T: Number, T:Comparable<T
         else -> error ("Not supported yet, please fix that here")
     }) as T
 }
-
+/*
 internal fun <T> MutableList<T>.addOrReplace(element: T){
     val i = indexOf(element)
     if (i == -1) add(element)
@@ -37,6 +37,17 @@ internal fun <T: Comparable<T>> MutableList<T>.addOrReplaceIfSmaller(element: T)
             it > element
         } ?: true
     }
+}
+
+ */
+
+internal fun <T: Comparable<T>> MutableSet<T>.addOrReplaceIfSmaller(element: T) {
+    this.firstOrNull{ it == element}?.let{
+        if (it < element) {
+            remove(it)
+            add(element)
+        }
+    } ?: run { add(element) }
 }
 
 internal fun Int.abs() = if (this > 0) this else this * -1

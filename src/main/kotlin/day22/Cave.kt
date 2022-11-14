@@ -35,11 +35,13 @@ class Cave(private val depth: Int, private val target: Coordinate) {
         } + depth) % MODULO
     }
 
-
-
-
-
-
+    //only shows cave up to target + 5
+    override fun toString(): String =
+        (0..target.x + 5).joinToString("\n") { y ->
+            (0..target.y + 5).joinToString("") { x ->
+                this[Coordinate(x, y)].terrain()
+            }
+        }
 
     companion object{
         private const val X_MULTIPLIER = 16807 // coordinates at y=0 get level it.x * X_MULTIPLIER

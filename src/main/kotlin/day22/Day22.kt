@@ -2,12 +2,13 @@ package day22
 
 import common.Coordinate
 import common.Solution
+import common.dijkstra.Dijkstra
 import common.extensions.grabInts
 
 class Day22: Solution {
     override val day = 22
     private val depth = inputLines().first().grabInts().first() // 510 //
-    private val target = inputLines().last().grabInts().let { Coordinate(it[0], it[1]) } // Coordinate(10,10) //
+    private val target = inputLines().last().grabInts().let { Coordinate(it[0], it[1]) } // Coordinate(10,10) // Coordinate(10,10) //
 
     private val cave = Cave(depth, target)
 
@@ -18,8 +19,10 @@ class Day22: Solution {
         riskLevel()
     }
 
-
-    override fun answer2(): Any = depth
-
-
+    // 1023 too high 
+    override fun answer2(): Any {
+        val start = cave[Coordinate(0, 0)].withTool(RegionWithTool.Tool.TORCH)
+        val end = cave[target].withTool(RegionWithTool.Tool.TORCH)
+        return Dijkstra(start, end).distance()
+    }
 }

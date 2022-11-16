@@ -28,6 +28,7 @@ class Nanobot(x: Int, y:Int, z: Int, val range: Int): XYZCoordinate(x, y, z) {
 
     companion object{
         fun ofLine(line: String): Nanobot{
+            println("line: $line")
             val vv = line.grabInts()
             return Nanobot(vv[0], vv[1], vv[2], vv[3])
         }

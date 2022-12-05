@@ -2,7 +2,7 @@ package day22
 
 import common.Coordinate
 import common.Solution
-import common.dijkstra.Dijkstra
+import common.dijkstra.AStar
 import common.extensions.grabInts
 
 class Day22: Solution {
@@ -20,9 +20,9 @@ class Day22: Solution {
     }
 
     // 1023 too high 
-    override fun answer2(): Any {
+    override fun answer2(): Any? {
         val start = cave[Coordinate(0, 0)].withTool(RegionWithTool.Tool.TORCH)
         val end = cave[target].withTool(RegionWithTool.Tool.TORCH)
-        return Dijkstra(start, end).distance()
+        return AStar(start, end).distance
     }
 }
